@@ -1,3 +1,7 @@
+from datetime import datetime as dt
+from .exc import WrongDateFormat
+
+
 class Moradia:
     id_count = 0
 
@@ -14,14 +18,21 @@ class Moradia:
         self.area = area
         self.endereco = endereco
         self.preco = preco
-        self.alugado_em = alugado_em
+        self.alugado_em = self.valida_alugado_em_formato(alugado_em)
 
-    @classmethod
-    def gerar_novo_id(cls):
-        print(f"NOME DA CLASSE {cls.__name__}")
-        cls.id_count += 1
+    def valida_alugado_em_formato(self, data_para_validar: str):
+        try:
+            dt.strptime(data_para_validar, "%d/%m/%Y")
+        except ValueError:
+            raise WrongDateFormat("formato de data errado")
 
-        return cls.id_count
+        return data_para_validar
+
+    @staticmethod
+    def gerar_novo_id():
+        Moradia.id_count += 1
+
+        return Moradia.id_count
 
     def gerar_relatorio(self) -> str:
         log = "Relatório:" + "\n"

@@ -1,4 +1,5 @@
 from inheritance import Moradia, Apartamento, Casa
+from inheritance.exc import WrongDateFormat
 
 
 def main():
@@ -68,6 +69,22 @@ def main():
     c2 = Casa(**c2_data)
     print(c2)
     print(c1.__dict__)
+
+    m3_data = {
+        "alugado_em": "11-01-2023",
+        "num_quartos": 3,
+        "area": 72.1,
+        "endereco": "Rua das Laranjas",
+        "preco": 1599,
+    }
+
+    try:
+        m3 = Moradia(**m3_data)
+        print(m3)
+        print()
+    except WrongDateFormat as error:
+        print(type(error))
+        print(error)
 
 
 if __name__ == "__main__":
